@@ -6,7 +6,6 @@ class Solution {
                 arr[i] /= 2;
             else if(arr[i] < 50 && arr[i] % 2 == 1)
                 arr[i] *= 2;
-            else arr[i] = arr[i];
         }
         return arr;
     }
