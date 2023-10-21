@@ -17,7 +17,7 @@ class Solution {
 		for(int i = 0; i < n; i++) {
 			for(int j = 0; j < m; j++) {
 				if(maps[i].charAt(j) != 'X' && !visited[i][j]) {
-					int sum = bfs(i, j, maps, visited);
+					int sum = dfs(i, j, maps, visited);
 					answer.add(sum);
 				}
 			}
@@ -32,30 +32,17 @@ class Solution {
 		
 	}
 	
-	public static int bfs(int x, int y, String[] maps, boolean[][] visited) {
-		int n = maps.length;
-		int m = maps[0].length();
+	public static int dfs(int x, int y, String[] maps, boolean[][] visited) {
+		if(x < 0 || y < 0 || x > maps.length - 1 || y > maps[0].length() - 1 || maps[x].charAt(y) == 'X' || visited[x][y]) return 0;
+		
 		int sum = 0;
-		Queue<int[]> queue = new LinkedList<>();
-		
-		queue.offer(new int[] {x, y});
 		visited[x][y] = true;
+		sum += maps[x].charAt(y) - '0';
 		
-		while(!queue.isEmpty()) {
-			int[] current = queue.poll();
-			int curX = current[0];
-			int curY = current[1];
-			sum += maps[curX].charAt(curY) - '0';
-			
-			for(int i = 0; i < 4; i++) {
-				int nx = curX + dx[i];
-				int ny = curY + dy[i];
-				if (nx >= 0 && ny >= 0 && nx < n && ny < m && maps[nx].charAt(ny) != 'X' && !visited[nx][ny]) {
-					visited[nx][ny] = true;
-					queue.offer(new int[] {nx, ny});
-				}
-			}
+		for(int i = 0; i < 4; i++) {
+			sum += dfs(x + dx[i], y + dy[i], maps, visited);
 		}
+		
 		return sum;
 	}
 }
